@@ -191,18 +191,23 @@
     background: #d1e7dd;
     color: #0f5132;
   }
-  /* زر العودة في صفحة التفاصيل */
-  #details button {
-    margin-bottom: 15px;
-    padding: 10px 15px;
+  /* الفوتر */
+  footer {
     background: #0D47A1;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    color: #cfd8dc;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 16px;
+    border-top: 3px solid #FFC107;
   }
-  #details button:hover {
-    background: #1976D2;
+  footer a {
+    color: #FFC107;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  footer a:hover {
+    text-decoration: underline;
   }
 </style>
 </head>
@@ -251,198 +256,4 @@
     <select id="fuel" required>
       <option value="">اختر نوع الوقود</option>
       <option value="بنزين">بنزين</option>
-      <option value="ديزل">ديزل</option>
-      <option value="كهرباء">كهرباء</option>
-    </select>
-    <label for="description">وصف السيارة:</label>
-    <textarea id="description" rows="4" required placeholder="صف السيارة..."></textarea>
-    <label for="imageURL">رابط صورة السيارة:</label>
-    <input type="url" id="imageURL" required placeholder="رابط مباشر لصورة السيارة" />
-    <button type="submit">إضافة الإعلان</button>
-  </form>
-</section>
-
-<section id="auth">
-  <h2>تسجيل الدخول / إنشاء حساب</h2>
-  <form id="authForm">
-    <label for="email">البريد الإلكتروني:</label>
-    <input type="email" id="email" required placeholder="example@mail.com" />
-    <label for="password">كلمة المرور:</label>
-    <input type="password" id="password" required placeholder="********" />
-    <button type="submit">تسجيل الدخول</button>
-  </form>
-  <div class="toggle-link" onclick="toggleAuthMode()">ليس لديك حساب؟ سجل الآن</div>
-</section>
-
-<script>
-  // البيانات المخزنة (سيارات مبدئية)
-  let cars = [
-    {
-      id: 1,
-      name: "تويوتا كورولا 2020",
-      price: 450000,
-      year: 2020,
-      mileage: 60000,
-      engine: 1600,
-      transmission: "أوتوماتيك",
-      fuel: "بنزين",
-      description: "سيارة بحالة ممتازة، استخدام شخصي، صيانة دورية.",
-      imageURL: "https://cdn.pixabay.com/photo/2017/01/06/19/15/car-1959506_960_720.jpg",
-      contact: "01012345678"
-    },
-    {
-      id: 2,
-      name: "هيونداي النترا 2018",
-      price: 320000,
-      year: 2018,
-      mileage: 85000,
-      engine: 1600,
-      transmission: "عادي",
-      fuel: "بنزين",
-      description: "محرك نظيف وموفر في البنزين، لا توجد حوادث.",
-      imageURL: "https://cdn.pixabay.com/photo/2014/05/21/14/47/car-349229_960_720.jpg",
-      contact: "01234567890"
-    }
-  ];
-
-  // عرض السيارات في الصفحة الرئيسية
-  function renderCarList() {
-    const list = document.getElementById('carList');
-    list.innerHTML = '';
-    cars.forEach(car => {
-      const card = document.createElement('div');
-      card.className = 'car-card';
-      card.innerHTML = `
-        <div class="car-image" style="background-image: url('${car.imageURL}')"></div>
-        <div class="car-info">
-          <h3>${car.name}</h3>
-          <p>السعر: ${car.price.toLocaleString()} جنيه</p>
-          <p>السنة: ${car.year}</p>
-        </div>
-      `;
-      card.onclick = () => showCarDetails(car.id);
-      list.appendChild(card);
-    });
-  }
-
-  // عرض تفاصيل سيارة
-  function showCarDetails(id) {
-    const car = cars.find(c => c.id === id);
-    if (!car) return;
-    document.getElementById('detailsImage').style.backgroundImage = `url('${car.imageURL}')`;
-    document.getElementById('detailsName').textContent = car.name;
-    document.getElementById('detailsInfo').innerHTML = `
-      <div>السعر: ${car.price.toLocaleString()} جنيه</div>
-      <div>سنة الصنع: ${car.year}</div>
-      <div>الكيلومترات: ${car.mileage.toLocaleString()}</div>
-      <div>المحرك: ${car.engine} سي سي</div>
-      <div>ناقل الحركة: ${car.transmission}</div>
-      <div>نوع الوقود: ${car.fuel}</div>
-    `;
-    document.getElementById('detailsDescription').textContent = car.description;
-    document.getElementById('detailsContact').textContent = `للتواصل: ${car.contact}`;
-    showSection('details');
-  }
-
-  // التنقل بين الأقسام
-  function showSection(sectionId) {
-    document.querySelectorAll('section').forEach(sec => {
-      sec.classList.remove('active');
-    });
-    document.querySelectorAll('nav button').forEach(btn => {
-      btn.classList.remove('active');
-    });
-
-    document.getElementById(sectionId).classList.add('active');
-    if(sectionId === 'home') {
-      document.getElementById('nav-home').classList.add('active');
-    } else if(sectionId === 'addCar') {
-      document.getElementById('nav-add').classList.add('active');
-    } else if(sectionId === 'auth') {
-      document.getElementById('nav-auth').classList.add('active');
-    }
-  }
-
-  // إضافة إعلان جديد
-  document.getElementById('addCarForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const newCar = {
-      id: Date.now(),
-      name: document.getElementById('carName').value.trim(),
-      price: Number(document.getElementById('price').value),
-      year: Number(document.getElementById('year').value),
-      mileage: Number(document.getElementById('mileage').value),
-      engine: Number(document.getElementById('engine').value),
-      transmission: document.getElementById('transmission').value,
-      fuel: document.getElementById('fuel').value,
-      description: document.getElementById('description').value.trim(),
-      imageURL: document.getElementById('imageURL').value.trim(),
-      contact: "يرجى تسجيل الدخول لعرض رقم التواصل"
-    };
-    cars.push(newCar);
-    alert('تم إضافة الإعلان بنجاح');
-    this.reset();
-    renderCarList();
-    showSection('home');
-  });
-
-  // التنقل أزرار النافيجيشن
-  document.getElementById('nav-home').onclick = () => showSection('home');
-  document.getElementById('nav-add').onclick = () => showSection('addCar');
-  document.getElementById('nav-auth').onclick = () => showSection('auth');
-
-  // صفحة تسجيل الدخول - فقط تصميم، بدون backend
-  let loginMode = true; // true = login, false = register
-  function toggleAuthMode() {
-    loginMode = !loginMode;
-    const form = document.getElementById('authForm');
-    const toggleLink = document.querySelector('#auth .toggle-link');
-    if (!loginMode) {
-      form.innerHTML = `
-        <label for="name">الاسم الكامل:</label>
-        <input type="text" id="name" required placeholder="الاسم الكامل" />
-        <label for="email">البريد الإلكتروني:</label>
-        <input type="email" id="email" required placeholder="example@mail.com" />
-        <label for="password">كلمة المرور:</label>
-        <input type="password" id="password" required placeholder="********" />
-        <label for="confirmPassword">تأكيد كلمة المرور:</label>
-        <input type="password" id="confirmPassword" required placeholder="********" />
-        <button type="submit">إنشاء حساب</button>
-      `;
-      toggleLink.textContent = "لديك حساب؟ تسجيل الدخول";
-    } else {
-      form.innerHTML = `
-        <label for="email">البريد الإلكتروني:</label>
-        <input type="email" id="email" required placeholder="example@mail.com" />
-        <label for="password">كلمة المرور:</label>
-        <input type="password" id="password" required placeholder="********" />
-        <button type="submit">تسجيل الدخول</button>
-      `;
-      toggleLink.textContent = "ليس لديك حساب؟ سجل الآن";
-    }
-  }
-
-  // معالجة تسجيل دخول / تسجيل (تجريبي فقط)
-  document.getElementById('authForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    if(loginMode){
-      alert("تم تسجيل الدخول بنجاح (تجريبي)");
-      showSection('home');
-    } else {
-      const pass = document.getElementById('password').value;
-      const confirmPass = document.getElementById('confirmPassword').value;
-      if(pass !== confirmPass){
-        alert("كلمتا المرور غير متطابقتين!");
-        return;
-      }
-      alert("تم إنشاء الحساب بنجاح (تجريبي)");
-      showSection('home');
-    }
-  });
-
-  // عرض أولي للسيارات
-  renderCarList();
-</script>
-
-</body>
-</html>
+      <option
