@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>كارتور - سوق السيارات الأول</title>
+    <title>Cartor - سوق السيارات الأول</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style>
+        /* أنماط الألوان */
         :root {
-            --primary: #004ba0;
-            --secondary: #ffd700;
-            --accent: #00b894;
-            --dark: #2d3436;
-            --light: #f8f9fa;
+            --primary-blue: #2c3e50;
+            --secondary-gray: #bdc3c7;
+            --accent-silver: #ecf0f1;
+            --highlight-red: #e74c3c;
         }
 
+        /* التنسيق العام */
         * {
             margin: 0;
             padding: 0;
@@ -22,203 +23,201 @@
         }
 
         body {
-            background: var(--light);
-            color: var(--dark);
+            background-color: #f8f9fa;
         }
 
-        .container {
+        /* الهيدر */
+        .main-header {
+            background: var(--primary-blue);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* نظام الصفحات */
-        .page {
-            display: none;
-            min-height: 100vh;
-            padding: 2rem 0;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* نموذج التسجيل */
-        .auth-form {
-            background: white;
-            max-width: 500px;
-            margin: 3rem auto;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .form-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--primary);
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-
-        /* صفحة الرئيسية */
-        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            padding: 0 20px;
         }
 
-        /* روابط التواصل */
-        .social-links {
-            display: flex;
+        .logo {
+            color: var(--accent-silver);
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* شريط البحث */
+        .search-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 1200px;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
-        .social-link {
-            color: var(--primary);
-            text-decoration: none;
+        /* قائمة السيارات */
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .car-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .car-details {
+            padding: 1rem;
+        }
+
+        .car-title {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        /* الفوتر */
+        .main-footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .social-links a {
+            color: white;
+            margin-left: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-form {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- صفحة المصادقة -->
-    <div id="authPage" class="page active">
-        <div class="container">
-            <div class="auth-form">
-                <h2 class="form-title" id="formTitle">تسجيل الدخول</h2>
-                
-                <form id="loginForm">
-                    <div class="input-group">
-                        <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="loginPassword" placeholder="كلمة المرور" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
-                </form>
+    <!-- الهيدر -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">CARTOR</div>
+            <nav>
+                <a href="#" style="color: var(--accent-silver); margin-left: 2rem;">تسجيل الدخول</a>
+                <a href="#" style="color: var(--accent-silver);">إضافة إعلان</a>
+            </nav>
+        </div>
+    </header>
 
-                <form id="registerForm" style="display: none;">
-                    <div class="input-group">
-                        <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="regPassword" placeholder="كلمة المرور" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="regConfirm" placeholder="تأكيد كلمة المرور" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">إنشاء حساب</button>
-                </form>
-
-                <div class="auth-switch">
-                    <p id="switchText">ليس لديك حساب؟ <a href="#" onclick="toggleForms()">إنشاء حساب</a></p>
-                </div>
-            </div>
+    <!-- شريط البحث -->
+    <div class="search-container">
+        <h2>ابحث عن سيارة</h2>
+        <div class="search-form">
+            <select class="form-control">
+                <option>جميع الماركات</option>
+                <option>تويوتا</option>
+                <option>هيونداي</option>
+            </select>
+            <select class="form-control">
+                <option>جميع الموديلات</option>
+                <option>2023</option>
+                <option>2022</option>
+            </select>
+            <input type="text" placeholder="أدني السعر" class="form-control">
+            <button class="btn-search">بحث</button>
         </div>
     </div>
 
-    <!-- الصفحة الرئيسية -->
-    <div id="mainPage" class="page">
-        <div class="container">
-            <div class="header">
-                <h1>السيارات المعروضة</h1>
-                <div>
-                    <button onclick="logout()" class="btn btn-primary">تسجيل الخروج</button>
+    <!-- قائمة السيارات -->
+    <main>
+        <div class="listings-grid">
+            <!-- إعلان سيارة -->
+            <article class="car-card">
+                <div class="car-image">
+                    <img src="car1.jpg" alt="سيارة">
                 </div>
-            </div>
+                <div class="car-details">
+                    <h3 class="car-title">تويوتا كورولا 2023</h3>
+                    <p>25,000 كم</p>
+                    <p style="color: var(--highlight-red); font-weight: bold; margin: 1rem 0;">325,000 جنيه</p>
+                    <button class="btn-details">عرض التفاصيل</button>
+                </div>
+            </article>
 
-            <div class="cars-grid">
-                <!-- محتوى السيارات -->
-            </div>
+            <!-- المزيد من الإعلانات -->
+        </div>
+    </main>
 
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div>
+                <h4>تواصل معنا</h4>
+                <p>تليفون: <a href="tel:01501150041" style="color: white;">01501150041</a></p>
+            </div>
             <div class="social-links">
-                <a href="https://www.facebook.com/share/1EzeY5z95o/" class="social-link" target="_blank">
+                <a href="https://www.facebook.com/share/1EzeY5z95o/" target="_blank">
                     <i class='bx bxl-facebook'></i>
-                    Facebook
                 </a>
-                <a href="https://www.instagram.com/hassan_rabah__?igsh=MTAzOWoyMHZucTg5YQ==" class="social-link" target="_blank">
+                <a href="https://www.instagram.com/hassan_rabah__?igsh=MTAzOWoyMHZucTg5YQ==" target="_blank">
                     <i class='bx bxl-instagram'></i>
-                    Instagram
                 </a>
-                <span class="social-link">
-                    <i class='bx bx-phone'></i>
-                    01501150041
-                </span>
             </div>
         </div>
-    </div>
+    </footer>
 
     <script>
-        // إدارة الحالة
-        let currentUser = null;
-
-        // تبديل النماذج
-        function toggleForms() {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const switchText = document.getElementById('switchText');
-            
-            if (loginForm.style.display === 'none') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-                switchText.innerHTML = 'ليس لديك حساب؟ <a href="#" onclick="toggleForms()">إنشاء حساب</a>';
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                switchText.innerHTML = 'لديك حساب بالفعل؟ <a href="#" onclick="toggleForms()">تسجيل الدخول</a>';
-            }
-        }
-
-        // تسجيل الدخول
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // التحقق من بيانات الدخول
-            currentUser = {
-                email: document.getElementById('loginEmail').value
-            };
-            switchPage('mainPage');
-        });
-
-        // إنشاء حساب
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // التحقق من تطابق كلمة المرور
-            currentUser = {
-                email: document.getElementById('regEmail').value
-            };
-            switchPage('mainPage');
-        });
-
-        // تسجيل الخروج
-        function logout() {
-            currentUser = null;
-            switchPage('authPage');
-        }
-
-        // تبديل الصفحات
-        function switchPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
+        // إضافة تفاعلية بسيطة
+        document.querySelectorAll('.btn-details').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('سيتم تحويلك لصفحة التفاصيل قريبًا');
             });
-            document.getElementById(pageId).classList.add('active');
-        }
-
-        // حماية الصفحات
-        function checkAuth() {
-            if (!currentUser && window.location.hash !== '#auth') {
-                switchPage('authPage');
-            }
-        }
-
-        // تهيئة التطبيق
-        checkAuth();
+        });
     </script>
 </body>
 </html>
