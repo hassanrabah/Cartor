@@ -10,7 +10,8 @@
     background: #f4f6f8; color: #333;
   }
   nav {
-    background: #0D47A1; color: white;
+    background: #0D47A1; /* أزرق الشعار */
+    color: white;
     display: flex; justify-content: space-around;
     padding: 10px 0; font-weight: bold;
   }
@@ -21,7 +22,7 @@
     transition: background-color 0.3s;
   }
   nav button:hover, nav button.active {
-    background-color: #1976D2;
+    background-color: #1976D2; /* أزرق فاتح */
   }
   section {
     display: none;
@@ -34,7 +35,8 @@
     display: block;
   }
   h2 {
-    color: #0D47A1; margin-top: 0;
+    color: #0D47A1;
+    margin-top: 0;
   }
   /* الرئيسية */
   #home .car-list {
@@ -43,7 +45,8 @@
     gap: 20px;
   }
   .car-card {
-    background: #e3f2fd; border-radius: 12px;
+    background: #e3f2fd; /* أزرق فاتح */
+    border-radius: 12px;
     overflow: hidden; cursor: pointer;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     transition: transform 0.2s;
@@ -85,7 +88,7 @@
   }
   #details .contact {
     margin-top: 30px;
-    background: #1976D2;
+    background: #1976D2; /* أزرق فاتح */
     color: white;
     padding: 15px;
     text-align: center;
@@ -121,7 +124,7 @@
   #addCar button {
     width: 100%;
     padding: 12px;
-    background: #FFC107;
+    background: #FFC107; /* أصفر الشعار */
     border: none;
     border-radius: 10px;
     color: #000;
@@ -256,4 +259,156 @@
     <select id="fuel" required>
       <option value="">اختر نوع الوقود</option>
       <option value="بنزين">بنزين</option>
-      <option
+      <option value="ديزل">ديزل</option>
+      <option value="غاز">غاز</option>
+    </select>
+    <button type="submit">إضافة الإعلان</button>
+  </form>
+</section>
+
+<section id="auth">
+  <h2>تسجيل دخول / تسجيل حساب</h2>
+  <form id="authForm">
+    <label for="email">البريد الإلكتروني:</label>
+    <input type="email" id="email" required placeholder="example@mail.com" />
+    <label for="password">كلمة المرور:</label>
+    <input type="password" id="password" required />
+    <button type="submit">تسجيل دخول</button>
+  </form>
+</section>
+
+<footer>
+  تواصل معنا:
+  <a href="https://www.facebook.com/share/1EzeY5z95o/" target="_blank" rel="noopener">فيسبوك</a> |
+  <a href="https://www.instagram.com/hassan_rabah__?igsh=MTAzOWoyMHZucTg5YQ==" target="_blank" rel="noopener">إنستجرام</a> |
+  <a href="tel:01501150041">01501150041</a>
+</footer>
+
+<script>
+  // تحكم عرض الأقسام
+  const navHome = document.getElementById('nav-home');
+  const navAdd = document.getElementById('nav-add');
+  const navAuth = document.getElementById('nav-auth');
+  const sections = {
+    home: document.getElementById('home'),
+    addCar: document.getElementById('addCar'),
+    auth: document.getElementById('auth'),
+    details: document.getElementById('details'),
+  };
+
+  function showSection(section) {
+    for (const key in sections) {
+      if (sections.hasOwnProperty(key)) {
+        sections[key].classList.remove('active');
+      }
+    }
+    sections[section].classList.add('active');
+    // تفعيل الزر المناسب
+    navHome.classList.remove('active');
+    navAdd.classList.remove('active');
+    navAuth.classList.remove('active');
+    if(section === 'home') navHome.classList.add('active');
+    else if(section === 'addCar') navAdd.classList.add('active');
+    else if(section === 'auth') navAuth.classList.add('active');
+  }
+
+  navHome.onclick = () => showSection('home');
+  navAdd.onclick = () => showSection('addCar');
+  navAuth.onclick = () => showSection('auth');
+
+  // عرض سيارات مثال
+  const carList = document.getElementById('carList');
+  const cars = [
+    {
+      name: 'تويوتا كورولا 2020',
+      price: 450000,
+      year: 2020,
+      mileage: 60000,
+      engine: 1600,
+      transmission: 'أوتوماتيك',
+      fuel: 'بنزين',
+      image: 'https://toyota.com/corolla.jpg',
+      description: 'سيارة بحالة ممتازة مع صيانة دورية.'
+    },
+    {
+      name: 'هيونداي أكسنت 2018',
+      price: 280000,
+      year: 2018,
+      mileage: 80000,
+      engine: 1400,
+      transmission: 'عادي',
+      fuel: 'بنزين',
+      image: 'https://hyundai.com/accent.jpg',
+      description: 'سيارة اقتصادية وموفرة في استهلاك الوقود.'
+    }
+  ];
+
+  function renderCars() {
+    carList.innerHTML = '';
+    cars.forEach((car, index) => {
+      const card = document.createElement('div');
+      card.className = 'car-card';
+      card.innerHTML = `
+        <div class="car-image" style="background-image:url('${car.image}')"></div>
+        <div class="car-info">
+          <h3>${car.name}</h3>
+          <p>السعر: ${car.price.toLocaleString()} جنيه</p>
+          <p>سنة الصنع: ${car.year}</p>
+        </div>
+      `;
+      card.onclick = () => showDetails(index);
+      carList.appendChild(card);
+    });
+  }
+
+  function showDetails(index) {
+    const car = cars[index];
+    document.getElementById('detailsImage').style.backgroundImage = `url('${car.image}')`;
+    document.getElementById('detailsName').textContent = car.name;
+    document.getElementById('detailsInfo').innerHTML = `
+      <div>السعر: ${car.price.toLocaleString()} جنيه</div>
+      <div>سنة الصنع: ${car.year}</div>
+      <div>الكيلومترات: ${car.mileage.toLocaleString()}</div>
+      <div>المحرك: ${car.engine} cc</div>
+      <div>نوع الناقل: ${car.transmission}</div>
+      <div>نوع الوقود: ${car.fuel}</div>
+    `;
+    document.getElementById('detailsDescription').textContent = car.description;
+    document.getElementById('detailsContact').textContent = 'للتواصل: 01501150041';
+    showSection('details');
+  }
+
+  // إضافة إعلان جديد
+  document.getElementById('addCarForm').onsubmit = function(e) {
+    e.preventDefault();
+    const newCar = {
+      name: document.getElementById('carName').value,
+      price: Number(document.getElementById('price').value),
+      year: Number(document.getElementById('year').value),
+      mileage: Number(document.getElementById('mileage').value),
+      engine: Number(document.getElementById('engine').value),
+      transmission: document.getElementById('transmission').value,
+      fuel: document.getElementById('fuel').value,
+      image: 'https://via.placeholder.com/400x300?text=سيارة+جديدة',
+      description: 'وصف السيارة غير متوفر.'
+    };
+    cars.push(newCar);
+    renderCars();
+    alert('تم إضافة الإعلان بنجاح!');
+    this.reset();
+    showSection('home');
+  };
+
+  // تسجيل دخول (بدون backend فعلي)
+  document.getElementById('authForm').onsubmit = function(e) {
+    e.preventDefault();
+    alert('تم تسجيل الدخول بنجاح (وهمي)');
+    this.reset();
+    showSection('home');
+  };
+
+  renderCars();
+</script>
+
+</body>
+</html>
