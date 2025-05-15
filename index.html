@@ -256,6 +256,22 @@
     font-size: 16px;
     color: #FFC107;
   }
+  /* زر تسجيل خروج */
+  #logoutBtn {
+    background: #FFC107;
+    color: #0D47A1;
+    border: none;
+    border-radius: 12px;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 10px;
+    display: none;
+    transition: background 0.3s ease;
+  }
+  #logoutBtn:hover {
+    background: #FFB300;
+  }
 </style>
 </head>
 <body>
@@ -264,6 +280,7 @@
   <button id="nav-home" class="active">الرئيسية</button>
   <button id="nav-add">إضافة إعلان</button>
   <button id="nav-auth">تسجيل دخول / تسجيل حساب</button>
+  <button id="logoutBtn">تسجيل خروج</button>
 </nav>
 
 <section id="home" class="active">
@@ -271,13 +288,13 @@
   <div class="car-list" id="carList"></div>
 </section>
 
-<section id="details">
-  <button onclick="showSection('home')">عودة</button>
-  <div class="car-image" id="detailsImage"></div>
-  <h2 id="detailsName"></h2>
-  <div class="info" id="detailsInfo"></div>
-  <div class="description" id="detailsDescription"></div>
-  <div class="contact" id="detailsContact"></div>
+<section id="details" style="max-width:900px; margin:35px auto; background:#fff; border-radius:14px; padding:25px 30px; box-shadow: 0 4px 15px rgba(13,71,161,0.2); display:none;">
+  <button onclick="showSection('home')" style="background:#0D47A1;color:#FFC107;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;margin-bottom:15px;">عودة</button>
+  <div class="car-image" id="detailsImage" style="width:100%; height:360px; background-size:cover; background-position:center; border-radius:14px; box-shadow: 0 0 14px rgba(13,71,161,0.25);"></div>
+  <h2 id="detailsName" style="color:#0D47A1; font-weight:800;"></h2>
+  <div class="info" id="detailsInfo" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:18px; margin:22px 0 10px 0;"></div>
+  <div class="description" id="detailsDescription" style="margin-top:24px; line-height:1.7; font-size:17px; color:#333;"></div>
+  <div class="contact" id="detailsContact" style="margin-top:36px; background:#FFC107; color:#0D47A1; padding:18px; text-align:center; border-radius:12px; font-size:20px; font-weight:800; box-shadow: 0 0 12px #FFC107;"></div>
 </section>
 
 <section id="addCar">
@@ -308,6 +325,7 @@
     </select>
     <button type="submit">إضافة الإعلان</button>
   </form>
+  <p id="addCarMsg" style="text-align:center; font-weight:700;"></p>
 </section>
 
 <section id="auth">
@@ -318,50 +336,4 @@
     <label for="password">كلمة المرور:</label>
     <input type="password" id="password" required placeholder="********" />
     <button type="submit">دخول</button>
-    <div class="toggle-link" onclick="toggleAuth()">ليس لديك حساب؟ سجل الآن</div>
-  </form>
-</section>
-
-<footer>
-  <div>
-    <a href="https://www.facebook.com/share/1EzeY5z95o/" target="_blank" rel="noopener">فيسبوك</a> |
-    <a href="https://www.instagram.com/hassan_rabah__?igsh=MTAzOWoyMHZucTg5YQ==" target="_blank" rel="noopener">إنستجرام</a>
-  </div>
-  <div class="contact-info">اتصل بنا: 01501150041</div>
-</footer>
-
-<script>
-  // التنقل بين الأقسام
-  const sections = ['home', 'addCar', 'auth'];
-  const navButtons = sections.map(id => document.getElementById('nav-' + id));
-
-  navButtons.forEach((btn, i) => {
-    btn.addEventListener('click', () => {
-      showSection(sections[i]);
-    });
-  });
-
-  function showSection(id) {
-    sections.forEach(sec => {
-      document.getElementById(sec).classList.remove('active');
-      document.getElementById('nav-' + sec).classList.remove('active');
-    });
-    document.getElementById(id).classList.add('active');
-    document.getElementById('nav-' + id).classList.add('active');
-  }
-
-  // التبديل بين تسجيل الدخول والتسجيل (ببساطة كده كمثال)
-  function toggleAuth() {
-    alert('ميزة التسجيل قيد التطوير حالياً.');
-  }
-
-  // مثال بسيط لإضافة إعلان (بدون تخزين حقيقي)
-  document.getElementById('addCarForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('شكراً! تم إرسال إعلان السيارة بنجاح.');
-    this.reset();
-  });
-</script>
-
-</body>
-</html>
+    <div class="toggle-link" onclick="alert('ميزة التسجيل قيد التطوير حالياً.')">ليس لديك حساب
