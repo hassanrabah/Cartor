@@ -3,337 +3,365 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Cartor - تطبيق بيع وشراء السيارات</title>
+<title>تطبيق بيع وشراء سيارات - Cartor</title>
 <style>
   body {
-    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f6f8;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    text-align: center;
     color: #222;
   }
   nav {
-    background: #0D47A1; /* أزرق غامق */
-    color: white;
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 14px 0;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(13,71,161,0.6);
+    background: #004ba0;
+    padding: 15px 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   nav button {
-    background: none;
+    background: #ffc107;
     border: none;
-    color: white;
-    font-size: 19px;
-    cursor: pointer;
-    padding: 8px 16px;
+    color: #222;
+    padding: 10px 18px;
+    margin: 0 5px;
+    font-weight: bold;
     border-radius: 8px;
-    transition: background-color 0.3s;
-    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 16px;
   }
-  nav button:hover, nav button.active {
-    background-color: #FFC107; /* أصفر ذهبي */
-    color: #0D47A1;
+  nav button:hover {
+    background: #ffb300;
+  }
+  nav button:disabled {
+    background: #ddd;
+    cursor: not-allowed;
+  }
+  nav button.active {
+    background: #ffb300;
   }
   section {
-    display: none;
-    max-width: 900px;
-    margin: 35px auto;
+    max-width: 700px;
+    margin: 30px auto;
     background: white;
-    border-radius: 14px;
-    padding: 25px 30px;
-    box-shadow: 0 4px 15px rgba(13,71,161,0.2);
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #ccc;
+    display: none;
+    text-align: right;
   }
   section.active {
     display: block;
   }
   h2 {
-    color: #0D47A1;
     margin-top: 0;
-    font-weight: 800;
+    color: #004ba0;
   }
-  /* الرئيسية */
-  #home .car-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-    gap: 22px;
+  input, select {
+    width: 95%;
+    padding: 10px;
+    margin: 8px 0 20px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  button.submit-btn {
+    background: #004ba0;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button.submit-btn:hover {
+    background: #003070;
+  }
+  .msg {
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  .msg.error {
+    color: #c00;
+  }
+  .msg.success {
+    color: #080;
   }
   .car-card {
-    background: #e3f2fd; /* أزرق فاتح */
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 3px 9px rgba(13,71,161,0.15);
-    transition: transform 0.25s;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
   }
-  .car-card:hover {
-    transform: scale(1.04);
+  .car-card:last-child {
+    border-bottom: none;
   }
-  .car-image {
-    height: 150px;
-    background-size: cover;
-    background-position: center;
-  }
-  .car-info {
-    padding: 14px;
-  }
-  .car-info h3 {
-    margin: 0 0 8px 0;
-    font-weight: 700;
-    color: #0D47A1;
-  }
-  /* تفاصيل سيارة */
-  #details .car-image {
-    width: 100%;
-    height: 360px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 14px;
-    box-shadow: 0 0 14px rgba(13,71,161,0.25);
-  }
-  #details .info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-    gap: 18px;
-    margin: 22px 0 10px 0;
-  }
-  #details .info div {
-    background: #e3f2fd;
-    padding: 14px;
-    border-radius: 10px;
-    font-weight: 600;
-    color: #0D47A1;
-    text-align: center;
-  }
-  #details .description {
-    margin-top: 24px;
-    line-height: 1.7;
-    font-size: 17px;
-    color: #333;
-  }
-  #details .contact {
-    margin-top: 36px;
-    background: #FFC107;
-    color: #0D47A1;
-    padding: 18px;
-    text-align: center;
-    border-radius: 12px;
+  .car-title {
+    font-weight: bold;
     font-size: 20px;
-    font-weight: 800;
-    box-shadow: 0 0 12px #FFC107;
+    color: #004ba0;
   }
-  /* إضافة إعلان */
-  #addCar {
-    background: linear-gradient(135deg, #0D47A1, #1976D2);
-    color: white;
-  }
-  #addCar form {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 35px;
-    border-radius: 18px;
-    max-width: 520px;
-    margin: auto;
-    box-shadow: 0 0 24px rgba(255, 193, 7, 0.5);
-    backdrop-filter: blur(14px);
-  }
-  #addCar label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-  #addCar input, #addCar select, #addCar textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-  }
-  #addCar button {
-    width: 100%;
-    padding: 14px;
-    background: #FFC107;
-    border: none;
-    border-radius: 12px;
-    color: #0D47A1;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: 700;
-    transition: background 0.3s ease;
-  }
-  #addCar button:hover {
-    background: #FFB300;
-  }
-  /* تسجيل دخول/تسجيل */
-  #auth {
-    max-width: 430px;
-    margin: 45px auto;
-    background: white;
-    border-radius: 18px;
-    box-shadow: 0 3px 16px rgba(13,71,161,0.2);
-    padding: 35px 30px;
-  }
-  #auth h2 {
-    margin-bottom: 28px;
-    color: #0D47A1;
-    font-weight: 800;
-  }
-  #auth form {
-    display: flex;
-    flex-direction: column;
-  }
-  #auth label {
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #222;
-  }
-  #auth input {
-    padding: 12px;
-    margin-bottom: 22px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    font-size: 17px;
-  }
-  #auth button {
-    padding: 14px;
-    background: #0D47A1;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: 700;
-  }
-  #auth .toggle-link {
-    margin-top: 14px;
-    text-align: center;
-    color: #0D47A1;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  #auth .toggle-link:hover {
-    text-decoration: underline;
-  }
-  /* الخطأ والنجاح */
-  .message {
-    text-align: center;
-    margin-bottom: 18px;
-    padding: 14px;
-    border-radius: 12px;
-  }
-  .message.error {
-    background: #f8d7da;
-    color: #842029;
-  }
-  .message.success {
-    background: #d1e7dd;
-    color: #0f5132;
-  }
-  /* الفوتر */
-  footer {
-    background: #0D47A1;
-    color: #cfd8dc;
-    text-align: center;
-    padding: 24px 15px;
-    font-size: 17px;
-    border-top: 4px solid #FFC107;
-    font-weight: 600;
-  }
-  footer a {
-    color: #FFC107;
-    margin: 0 14px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: color 0.3s;
-  }
-  footer a:hover {
-    color: #fff;
-    text-decoration: underline;
-  }
-  footer .contact-info {
-    margin-top: 12px;
-    font-size: 16px;
-    color: #FFC107;
-  }
-  /* زر تسجيل خروج */
-  #logoutBtn {
-    background: #FFC107;
-    color: #0D47A1;
-    border: none;
-    border-radius: 12px;
-    padding: 8px 14px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-left: 10px;
-    display: none;
-    transition: background 0.3s ease;
-  }
-  #logoutBtn:hover {
-    background: #FFB300;
+  .car-details {
+    margin-top: 6px;
+    font-size: 15px;
   }
 </style>
 </head>
 <body>
 
 <nav>
-  <button id="nav-home" class="active">الرئيسية</button>
-  <button id="nav-add">إضافة إعلان</button>
-  <button id="nav-auth">تسجيل دخول / تسجيل حساب</button>
-  <button id="logoutBtn">تسجيل خروج</button>
+  <button id="btnHome" class="active">الرئيسية</button>
+  <button id="btnAdd" disabled>إضافة إعلان</button>
+  <button id="btnLogin">تسجيل دخول</button>
+  <button id="btnRegister">إنشاء حساب</button>
+  <button id="btnLogout" style="display:none;">تسجيل خروج</button>
 </nav>
 
 <section id="home" class="active">
-  <h2>آخر السيارات المعروضة</h2>
-  <div class="car-list" id="carList"></div>
+  <h2>السيارات المعروضة للبيع</h2>
+  <div id="carList">
+    <p>لا توجد سيارات معروضة حالياً.</p>
+  </div>
 </section>
 
-<section id="details" style="max-width:900px; margin:35px auto; background:#fff; border-radius:14px; padding:25px 30px; box-shadow: 0 4px 15px rgba(13,71,161,0.2); display:none;">
-  <button onclick="showSection('home')" style="background:#0D47A1;color:#FFC107;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;margin-bottom:15px;">عودة</button>
-  <div class="car-image" id="detailsImage" style="width:100%; height:360px; background-size:cover; background-position:center; border-radius:14px; box-shadow: 0 0 14px rgba(13,71,161,0.25);"></div>
-  <h2 id="detailsName" style="color:#0D47A1; font-weight:800;"></h2>
-  <div class="info" id="detailsInfo" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:18px; margin:22px 0 10px 0;"></div>
-  <div class="description" id="detailsDescription" style="margin-top:24px; line-height:1.7; font-size:17px; color:#333;"></div>
-  <div class="contact" id="detailsContact" style="margin-top:36px; background:#FFC107; color:#0D47A1; padding:18px; text-align:center; border-radius:12px; font-size:20px; font-weight:800; box-shadow: 0 0 12px #FFC107;"></div>
-</section>
-
-<section id="addCar">
+<section id="add">
   <h2>إضافة إعلان سيارة جديد</h2>
-  <form id="addCarForm">
-    <label for="carName">اسم السيارة:</label>
-    <input type="text" id="carName" required placeholder="مثال: تويوتا كورولا 2020" />
-    <label for="price">السعر (جنيه):</label>
-    <input type="number" id="price" required placeholder="مثال: 450000" />
-    <label for="year">سنة الصنع:</label>
-    <input type="number" id="year" required placeholder="مثال: 2020" />
-    <label for="mileage">الكيلومترات:</label>
-    <input type="number" id="mileage" required placeholder="مثال: 60000" />
-    <label for="engine">المحرك (cc):</label>
-    <input type="number" id="engine" required placeholder="مثال: 1600" />
-    <label for="transmission">نوع الناقل:</label>
+  <p id="addMsg" class="msg"></p>
+  <form id="addForm">
+    <input type="text" id="carName" placeholder="اسم السيارة" required />
+    <input type="number" id="price" placeholder="السعر (بالجنيه)" required min="1" />
+    <input type="number" id="year" placeholder="سنة الصنع" required min="1900" max="2099" />
+    <input type="number" id="mileage" placeholder="الكيلومترات المقطوعة" required min="0" />
+    <input type="number" id="engine" placeholder="حجم المحرك (cc)" required min="50" />
     <select id="transmission" required>
-      <option value="">اختر نوع الناقل</option>
+      <option value="">اختر ناقل الحركة</option>
       <option value="أوتوماتيك">أوتوماتيك</option>
       <option value="عادي">عادي</option>
     </select>
-    <label for="fuel">نوع الوقود:</label>
     <select id="fuel" required>
       <option value="">اختر نوع الوقود</option>
       <option value="بنزين">بنزين</option>
       <option value="ديزل">ديزل</option>
       <option value="غاز طبيعي">غاز طبيعي</option>
     </select>
-    <button type="submit">إضافة الإعلان</button>
+    <button type="submit" class="submit-btn">إضافة الإعلان</button>
   </form>
-  <p id="addCarMsg" style="text-align:center; font-weight:700;"></p>
 </section>
 
-<section id="auth">
-  <h2>تسجيل دخول / تسجيل حساب</h2>
-  <form id="authForm">
-    <label for="email">البريد الإلكتروني:</label>
-    <input type="email" id="email" required placeholder="example@mail.com" />
-    <label for="password">كلمة المرور:</label>
-    <input type="password" id="password" required placeholder="********" />
-    <button type="submit">دخول</button>
-    <div class="toggle-link" onclick="alert('ميزة التسجيل قيد التطوير حالياً.')">ليس لديك حساب
+<section id="loginSection">
+  <h2>تسجيل دخول</h2>
+  <p id="loginMsg" class="msg"></p>
+  <form id="loginForm">
+    <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required />
+    <input type="password" id="loginPassword" placeholder="كلمة المرور" required />
+    <button type="submit" class="submit-btn">دخول</button>
+  </form>
+</section>
+
+<section id="registerSection">
+  <h2>إنشاء حساب جديد</h2>
+  <p id="registerMsg" class="msg"></p>
+  <form id="registerForm">
+    <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required />
+    <input type="password" id="regPassword" placeholder="كلمة المرور" required minlength="6" />
+    <input type="password" id="regPasswordConfirm" placeholder="تأكيد كلمة المرور" required minlength="6" />
+    <button type="submit" class="submit-btn">إنشاء حساب</button>
+  </form>
+</section>
+
+<script>
+  // --- التبديل بين الأقسام ---
+  function showSection(id) {
+    ['home','add','loginSection','registerSection'].forEach(sec => {
+      document.getElementById(sec).classList.remove('active');
+    });
+    if(id) document.getElementById(id).classList.add('active');
+    clearMessages();
+  }
+
+  function clearMessages() {
+    ['loginMsg','registerMsg','addMsg'].forEach(id => {
+      const el = document.getElementById(id);
+      el.textContent = '';
+      el.className = 'msg';
+    });
+  }
+
+  // --- بيانات المستخدمين ---
+  function getUsers() {
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  }
+  function saveUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  // --- بيانات السيارات ---
+  function getCars() {
+    return JSON.parse(localStorage.getItem('cars') || '[]');
+  }
+  function saveCars(cars) {
+    localStorage.setItem('cars', JSON.stringify(cars));
+  }
+
+  // --- عرض السيارات في الصفحة الرئيسية ---
+  function renderCarList() {
+    const carList = document.getElementById('carList');
+    const cars = getCars();
+    if(cars.length === 0) {
+      carList.innerHTML = '<p>لا توجد سيارات معروضة حالياً.</p>';
+      return;
+    }
+    let html = '';
+    cars.forEach(car => {
+      html += `
+        <div class="car-card">
+          <div class="car-title">${car.carName}</div>
+          <div class="car-details">
+            السعر: ${car.price.toLocaleString()} جنيه<br/>
+            سنة الصنع: ${car.year}<br/>
+            الكيلومترات: ${car.mileage.toLocaleString()} كم<br/>
+            حجم المحرك: ${car.engine} سي سي<br/>
+            ناقل الحركة: ${car.transmission}<br/>
+            نوع الوقود: ${car.fuel}
+          </div>
+        </div>`;
+    });
+    carList.innerHTML = html;
+  }
+
+  // --- تحديث حالة واجهة المستخدم ---
+  function updateUI() {
+    const email = localStorage.getItem('userEmail');
+    const loggedIn = !!email;
+    document.getElementById('btnLogout').style.display = loggedIn ? 'inline-block' : 'none';
+    document.getElementById('btnLogin').style.display = loggedIn ? 'none' : 'inline-block';
+    document.getElementById('btnRegister').style.display = loggedIn ? 'none' : 'inline-block';
+    document.getElementById('btnAdd').disabled = !loggedIn;
+  }
+
+  // --- تسجيل خروج ---
+  document.getElementById('btnLogout').addEventListener('click', () => {
+    localStorage.removeItem('userEmail');
+    updateUI();
+    showSection('home');
+  });
+
+  // --- أزرار التنقل ---
+  document.getElementById('btnHome').addEventListener('click', () => showSection('home'));
+  document.getElementById('btnAdd').addEventListener('click', () => {
+    if(!localStorage.getItem('userEmail')) {
+      alert('يجب تسجيل الدخول لإضافة إعلان');
+      showSection('loginSection');
+      return;
+    }
+    showSection('add');
+  });
+  document.getElementById('btnLogin').addEventListener('click', () => showSection('loginSection'));
+  document.getElementById('btnRegister').addEventListener('click', () => showSection('registerSection'));
+
+  // --- تسجيل دخول ---
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const users = getUsers();
+    const user = users.find(u => u.email === email && u.password === password);
+    const msg = document.getElementById('loginMsg');
+    if(user) {
+      localStorage.setItem('userEmail', email);
+      msg.textContent = 'تم تسجيل الدخول بنجاح!';
+      msg.className = 'msg success';
+      updateUI();
+      showSection('home');
+    } else {
+      msg.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+      msg.className = 'msg error';
+    }
+  });
+
+  // --- إنشاء حساب جديد ---
+  document.getElementById('registerForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('regEmail').value.trim();
+    const pass1 = document.getElementById('regPassword').value;
+    const pass2 = document.getElementById('regPasswordConfirm').value;
+    const msg = document.getElementById('registerMsg');
+
+    if(pass1 !== pass2) {
+      msg.textContent = 'كلمتا المرور غير متطابقتين.';
+      msg.className = 'msg error';
+      return;
+    }
+    if(pass1.length < 6) {
+      msg.textContent = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل.';
+      msg.className = 'msg error';
+      return;
+    }
+    let users = getUsers();
+    if(users.some(u => u.email === email)) {
+      msg.textContent = 'هذا البريد مستخدم مسبقاً.';
+      msg.className = 'msg error';
+      return;
+    }
+    users.push({email, password: pass1});
+    saveUsers(users);
+    msg.textContent = 'تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.';
+    msg.className = 'msg success';
+    e.target.reset();
+  });
+
+  // --- إضافة إعلان سيارة ---
+  document.getElementById('addForm').addEventListener('submit', e => {
+    e.preventDefault();
+    if(!localStorage.getItem('userEmail')) {
+      alert('يجب تسجيل الدخول لإضافة إعلان');
+      showSection('loginSection');
+      return;
+    }
+    const carName = document.getElementById('carName').value.trim();
+    const price = parseInt(document.getElementById('price').value);
+    const year = parseInt(document.getElementById('year').value);
+    const mileage = parseInt(document.getElementById('mileage').value);
+    const engine = parseInt(document.getElementById('engine').value);
+    const transmission = document.getElementById('transmission').value;
+    const fuel = document.getElementById('fuel').value;
+
+    const msg = document.getElementById('addMsg');
+
+    if(!carName || !price || !year || !mileage || !engine || !transmission || !fuel) {
+      msg.textContent = 'يرجى ملء جميع الحقول بشكل صحيح.';
+      msg.className = 'msg error';
+      return;
+    }
+    if(year < 1900 || year > 2099) {
+      msg.textContent = 'سنة الصنع غير صحيحة.';
+      msg.className = 'msg error';
+      return;
+    }
+    if(price <= 0 || mileage < 0 || engine < 50) {
+      msg.textContent = 'برجاء إدخال أرقام صحيحة.';
+      msg.className = 'msg error';
+      return;
+    }
+
+    let cars = getCars();
+    cars.push({carName, price, year, mileage, engine, transmission, fuel});
+    saveCars(cars);
+
+    msg.textContent = 'تم إضافة الإعلان بنجاح!';
+    msg.className = 'msg success';
+    e.target.reset();
+    renderCarList();
+    showSection('home');
+  });
+
+  // --- تهيئة الصفحة عند التحميل ---
+  updateUI();
+  renderCarList();
+</script>
+
+</body>
+</html>
